@@ -368,12 +368,10 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
      - mobile: khung gần vuông → chỉ còn khúc giữa ảnh, nằm ngay sau chữ
    Sau: desktop ảnh căn phải + mép trái mờ dần vào nền vàng, chữ gọn ở nửa trái;
         mobile H1 + mô tả trên nền vàng trơn, ảnh thành dải riêng ngay dưới mô tả.
-   Thanh 4 tiêu chí: hiện đủ chữ (trước bị cắt "…" ở cả mobile lẫn desktop).
-        Desktop: nhãn dài xuống 2 dòng → thanh cao lên nên không neo đáy nữa mà nằm
+   Thanh 4 tiêu chí: hiện đủ chữ (trước bị cắt "…" ở cả mobile lẫn desktop),
+        nhãn dài thì xuống 2 dòng → thanh cao lên nên không neo đáy nữa mà nằm
         trong dòng chảy ngay dưới mô tả (trước: 992–1199px thanh 2 hàng đè mất
         40px mô tả — lỗi có sẵn trên live).
-        Mobile/tablet: 1 hàng vuốt ngang, nhãn 1 dòng, thanh kéo bên dưới cùng kiểu
-        .tabs-bar của dải danh mục con (markup .criteria-bar + page.js).
    ========================================================================== */
 .shop-archive .category-hero .media .img {
 	object-position: right center;
@@ -429,69 +427,21 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 		height: clamp(120px, 24vw, 168px);
 	}
 
-	/* 1 hàng vuốt ngang, tràn sát 2 mép thẻ để ô cuối ló ra = gợi ý còn nội dung */
-	.shop-archive .category-hero .criteria .list {
-		display: flex;
-		flex-wrap: nowrap;
-		gap: 8px;
-		margin: 0 -12px;
-		padding: 0 12px;
-		overflow-x: auto;
-		overflow-y: hidden;
-		overscroll-behavior-x: contain;
-		scrollbar-width: none;
-	}
-
-	.shop-archive .category-hero .criteria .list::-webkit-scrollbar {
-		display: none;
-	}
-
-	/* :last-child: rule gốc "padding-right:0" (vạch ngăn thanh ngang desktop) lọt xuống mobile → ô cuối hụt 8px */
+	/* :last-child: rule gốc "padding-right:0" (vạch ngăn thanh ngang desktop) lọt xuống mobile → nút (i) ô cuối lệch 8px */
 	.shop-archive .category-hero .criteria .item,
 	.shop-archive .category-hero .criteria .item:last-child {
-		flex: 0 0 auto;
 		padding: 8px;
 	}
 
-	.shop-archive .category-hero .criteria .label {
-		white-space: nowrap;
-	}
-
-	.shop-archive .category-hero .criteria-bar {
-		position: relative;
-		height: 3px;
-		margin-top: 10px;
-		border-radius: 99px;
-		background: #E5E7EB;
-		cursor: pointer;
-		touch-action: none;
-	}
-
-	/* vùng chạm cao 23px cho thanh 3px */
-	.shop-archive .category-hero .criteria-bar::after {
-		content: "";
-		position: absolute;
-		inset: -10px 0;
-	}
-
-	.shop-archive .category-hero .criteria-bar[hidden] {
-		display: none;
-	}
-
-	.shop-archive .category-hero .criteria-bar-thumb {
-		position: absolute;
-		top: 0;
-		left: 0;
-		height: 100%;
-		width: 40%;
-		border-radius: 99px;
-		background: #3B82F6;
+	.shop-archive .category-hero .criteria .criteria-info {
+		margin-left: auto;
 	}
 }
 
-@media (min-width: 992px) {
-	.shop-archive .category-hero .criteria-bar {
-		display: none;
+/* Máy hẹp (360–375px): 2 cột chỉ còn ~105px cho chữ → nhãn vỡ 3 dòng; 1 cột thì mỗi nhãn 1 dòng */
+@media (max-width: 389.98px) {
+	.shop-archive .category-hero .criteria .list {
+		grid-template-columns: 1fr;
 	}
 }
 </style>
@@ -560,8 +510,7 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
         </style>
     
 <!-- Danh mục Đồ chơi ngoài trời mầm non — bản sạch, chỉ sửa banner (.category-hero), 09/11/2026.
-     Mới: <style id="vmx-change"> (dán cuối woocommerce-archive.css) + <div class="criteria-bar"> sau .criteria .list
-     + <script id="vmx-page-js">. Còn lại HTML trang giữ nguyên như site.
+     Chỉ <style id="vmx-change"> (dán cuối woocommerce-archive.css) là mới; HTML trang giữ nguyên như site.
      <script id="vmx-demo-guard"> CHỈ cho file demo.
      Dựng bằng nguyen-lieu/2026-11-09_banner-ngoai-troi-trang-build/build.py — ĐỪNG sửa tay file này. -->
 <style id="vmx-font">
@@ -2228,7 +2177,6 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 								</button>
 													</div>
 									</div>
-				<div class="criteria-bar" data-criteria-bar aria-hidden="true" hidden><span class="criteria-bar-thumb" data-criteria-thumb></span></div>
 			</div>
 			</div>
 </section>
@@ -5257,48 +5205,6 @@ var e="script#wp-emoji-settings",t=document.querySelector(e);if(!(t instanceof H
     </div>
 </div>
 <div id="body_overlay"></div>
-<script id="vmx-page-js">
-/* Banner danh mục — dải 4 tiêu chí trên mobile (≤991px) nằm 1 hàng, vuốt ngang.
-   Thanh kéo bên dưới cùng kiểu .tabs-bar của dải danh mục con: độ rộng con trượt = phần đang thấy,
-   vị trí = vị trí cuộn. Kéo hoặc chạm vào thanh cũng cuộn được dải. Hết tràn (desktop) thì ẩn thanh. */
-(function () {
-	document.querySelectorAll('.category-hero .criteria').forEach(function (box) {
-		var list = box.querySelector('.list');
-		var bar = box.querySelector('[data-criteria-bar]');
-		if (!list || !bar) return;
-		var thumb = bar.querySelector('[data-criteria-thumb]');
-
-		function update() {
-			var max = list.scrollWidth - list.clientWidth;
-			bar.hidden = max <= 1;
-			if (bar.hidden) return;
-			var w = bar.clientWidth * list.clientWidth / list.scrollWidth;
-			thumb.style.width = w + 'px';
-			thumb.style.transform = 'translateX(' + (list.scrollLeft / max) * (bar.clientWidth - w) + 'px)';
-		}
-
-		function drag(e) {
-			var r = bar.getBoundingClientRect();
-			var w = thumb.offsetWidth;
-			var p = (e.clientX - r.left - w / 2) / (r.width - w);
-			list.scrollLeft = Math.max(0, Math.min(1, p)) * (list.scrollWidth - list.clientWidth);
-		}
-
-		bar.addEventListener('pointerdown', function (e) {
-			drag(e);
-			bar.setPointerCapture(e.pointerId);
-			bar.addEventListener('pointermove', drag);
-		});
-		bar.addEventListener('pointerup', function () {
-			bar.removeEventListener('pointermove', drag);
-		});
-		list.addEventListener('scroll', update, { passive: true });
-		window.addEventListener('resize', update);
-		window.addEventListener('load', update);
-		update();
-	});
-})();
-</script>
 <script id="vmx-demo-guard">
 /* CHỈ CHO FILE DEMO — KHÔNG đưa lên site.
    Trang có form CF7 3917 (popup "Nhận tư vấn & báo giá"). Mở file này ở máy mà bấm gửi thì form vẫn POST thật
