@@ -367,15 +367,28 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
      - desktop: cột chữ rộng 58% → mô tả đè lên xích đu
      - mobile: khung gần vuông → chỉ còn khúc giữa ảnh, nằm ngay sau chữ
    Sau: desktop ảnh căn phải + mép trái mờ dần vào nền vàng, chữ gọn ở nửa trái;
-        mobile ảnh thành dải riêng ở đầu thẻ, chữ nằm trên nền vàng trơn.
-   Kèm: 992–1199px thanh 4 tiêu chí xuống 2 hàng (cao 100px) mà vẫn neo đáy
-        cho 1 hàng → đè mất 40px đoạn mô tả (lỗi có sẵn trên live) → cho vào dòng chảy.
+        mobile H1 + mô tả trên nền vàng trơn, ảnh thành dải riêng ngay dưới mô tả.
+   Thanh 4 tiêu chí: hiện đủ chữ (trước bị cắt "…" ở cả mobile lẫn desktop),
+        nhãn dài thì xuống 2 dòng → thanh cao lên nên không neo đáy nữa mà nằm
+        trong dòng chảy ngay dưới mô tả (trước: 992–1199px thanh 2 hàng đè mất
+        40px mô tả — lỗi có sẵn trên live).
    ========================================================================== */
 .shop-archive .category-hero .media .img {
 	object-position: right center;
 }
 
+.shop-archive .category-hero .criteria .label {
+	white-space: normal;
+	overflow: visible;
+	text-overflow: clip;
+	text-wrap: balance;
+}
+
 @media (min-width: 992px) {
+	.shop-archive .category-hero .inner {
+		padding-bottom: 16px;
+	}
+
 	.shop-archive .category-hero .media {
 		left: auto;
 		width: 62%;
@@ -386,41 +399,49 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 	.shop-archive .category-hero .copy {
 		max-width: 46%;
 	}
-}
-
-@media (min-width: 992px) and (max-width: 1199.98px) {
-	.shop-archive .category-hero .inner {
-		padding-bottom: 16px;
-	}
 
 	.shop-archive .category-hero .criteria {
 		position: relative;
 		left: auto;
 		right: auto;
 		bottom: auto;
-		margin-top: 12px;
+		margin-top: 16px;
 	}
+}
 
+@media (min-width: 992px) and (max-width: 1199.98px) {
 	.shop-archive .category-hero .criteria .item {
 		flex: 1 1 calc(50% - 16px);
 	}
 }
 
 @media (max-width: 991.98px) {
-	.shop-archive .category-hero .inner {
-		padding-top: 0;
+	.shop-archive .category-hero .copy {
+		order: -1;
 	}
 
 	.shop-archive .category-hero .media {
 		position: relative;
 		inset: auto;
-		order: -1;
 		margin: 0 -12px;
 		height: clamp(120px, 24vw, 168px);
 	}
 
-	.shop-archive .category-hero .copy {
-		padding-top: 4px;
+	/* :last-child: rule gốc "padding-right:0" (vạch ngăn thanh ngang desktop) lọt xuống mobile → nút (i) ô cuối lệch 8px */
+	.shop-archive .category-hero .criteria .item,
+	.shop-archive .category-hero .criteria .item:last-child {
+		padding: 8px;
+	}
+
+	.shop-archive .category-hero .criteria .criteria-info {
+		margin-left: auto;
+	}
+}
+
+/* Máy hẹp (360–375px): 2 cột chỉ còn ~105px cho chữ → nhãn vỡ 3 dòng; 1 cột thì mỗi nhãn 1 dòng */
+@media (max-width: 389.98px) {
+	.shop-archive .category-hero .criteria .list {
+		grid-template-columns: 1fr;
 	}
 }
 </style>
