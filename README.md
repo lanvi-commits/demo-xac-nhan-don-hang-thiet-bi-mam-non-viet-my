@@ -48,6 +48,8 @@ Bản sạch của trang danh mục, HTML giữ nguyên như site. Sửa banner 
    - 4 ảnh thẻ sản phẩm đầu (hàng đầu desktop, 2 hàng đầu mobile) đổi `loading="lazy"` thành `loading="eager"` và bỏ `auto, ` trong `sizes` (chỉ hợp lệ với lazy). Ở 390px và 768px ảnh thẻ đầu chính là phần tử LCP. DEV: lọc `wp_get_attachment_image_attributes` theo vị trí trong vòng lặp sản phẩm.
    - Phần tử LCP đo được: desktop = ảnh banner; 390×844 và 768×1024 = ảnh thẻ sản phẩm đầu; 375×667 = H1. Tất cả đều nằm trong màn hình đầu.
 
+7. Mô tả danh mục thay bằng chữ mới (09/11): "Trang thiết bị đồ chơi vận động mầm non chính hãng, an toàn tuyệt đối và hỗ trợ phát triển thể chất toàn diện cho bé. Đa dạng mẫu bập bênh, cầu trượt, xích đu chất lượng cao, chịu nắng mưa tốt, phù hợp cho không gian trong nhà, sân chơi ngoài trời và trường mẫu giáo." Sửa ở ô "Mô tả" của danh mục trong admin, không sửa template.
+
 CSS dùng chung selector `.shop-archive .category-hero`, nên dán lên site sẽ áp cho mọi danh mục. Các ảnh banner khác cũng theo bố cục trang trí bên trái, sản phẩm bên phải. Riêng ảnh Đồ chơi vận động (800×500, có viền kem) cần up lại dạng dải 1024×224.
 
 `do-choi-ngoai-troi-mam-non/index.html` là bản build từ `Design UX-UI/brands/viet-my/nguyen-lieu/2026-11-09_banner-ngoai-troi-trang-build/`. Sửa `change.css` rồi chạy `build.py`. Đừng sửa tay.
