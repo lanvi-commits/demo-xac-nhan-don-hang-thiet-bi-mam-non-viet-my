@@ -28,15 +28,20 @@ Phần mới chỉ gồm `<div class="order-received-content">`, `<style id="vmx
 - Xem trực tiếp: https://lanvi-commits.github.io/demo-xac-nhan-don-hang-thiet-bi-mam-non-viet-my/do-choi-ngoai-troi-mam-non/
 - Trang thật: https://website-demo-02.thcmedia.vn/do-choi-ngoai-troi-mam-non/
 
-Bản sạch của trang danh mục, HTML giữ nguyên như site. Sửa banner `.category-hero` bằng CSS (`<style id="vmx-change">`, dán cuối `woocommerce-archive.css`) và khai ảnh banner làm ảnh đại diện danh mục (mục 5).
+Bản sạch của trang danh mục, HTML giữ nguyên như site. Sửa banner `.category-hero` bằng CSS (`<style id="vmx-change">`, dán cuối `woocommerce-archive.css`) khai ảnh banner làm ảnh đại diện danh mục (mục 5), bọc ảnh banner bằng `<picture>` và cho 4 ảnh thẻ đầu tải ngay (mục 6).
 
-1. Mobile và tablet (≤991px): H1 và mô tả nằm trên cùng, trên nền vàng trơn. Ngay bên dưới là dải ảnh riêng, cao theo đúng tỉ lệ ảnh 32:7 (khoảng 83px ở khổ 390px) nên thấy trọn ảnh, không bị cắt; tiếp theo là thanh tiêu chí. Trước đây ảnh phủ kín khung, chỉ còn khúc giữa ảnh nằm ngay sau chữ.
+1. Mobile và tablet (≤991px): **bỏ ảnh banner**, chỉ còn H1, mô tả và thanh tiêu chí trên nền vàng. Theo tiêu chí E1 của visual-semantic-seo: trang danh mục không dùng banner hero, ảnh đại diện đi qua `og:image` + `CollectionPage.image` (mục 5). Lưới sản phẩm lên cao: thẻ đầu ở 648px (390×844), toolbar Bộ lọc nằm trong màn hình đầu kể cả ở 375×667. Ảnh **không bị tải** trên mobile (xem mục 6).
 2. Desktop (≥992px): ảnh chiếm 62% bên phải, căn phải, mép trái mờ dần vào nền vàng. Cột chữ còn 52% (trước là 58%): mô tả không còn đè lên xích đu, H1 36px vẫn nằm 1 dòng nên banner giữ 222px và hàng sản phẩm đầu bắt đầu ở 573px (≤600px theo tiêu chí E1 của visual-semantic-seo).
 3. Thanh 4 tiêu chí hiện đủ chữ ở mọi khổ (trước bị cắt "…"). Nhãn dài thì xuống 2 dòng. Thanh nằm ngay dưới mô tả, không ghim ở đáy nữa: trước đây ở khổ 992–1199px thanh xuống 2 hàng nhưng vẫn ghim đáy nên che mất 40px mô tả (lỗi có sẵn trên site). 992–1199px chia 2×2; dưới 390px chuyển 1 cột để không nhãn nào vỡ 3 dòng; nút (i) luôn sát mép phải. Ô cuối trên mobile trước lệch 8px do rule `.item:last-child { padding-right: 0 }` của thanh ngang desktop.
 
 4. Mobile và tablet (≤991px): khoảng trắng giữa header và breadcrumb giảm từ 48px xuống 12px. 48px cũ gồm `padding-top: 24px` của `main.shop-archive` cộng `gap: 24px` của `.layout`. Cột `.sidebar` cao 0px vì bộ lọc là ngăn kéo `position: fixed`, nhưng vẫn tạo thêm một khoảng gap. Desktop giữ nguyên 24px vì cột bộ lọc vẫn hiện.
 
 5. Ảnh đại diện danh mục: khai ảnh banner cho `og:image` (kèm width/height/alt/type), `twitter:image`, và thêm `ImageObject` `#primaryimage` vào schema, gắn vào `CollectionPage.image` + `primaryImageOfPage`. Trang live chưa có cả 3. Phần này DEV làm ở Rank Math, không sửa template.
+
+6. Ảnh và LCP:
+   - Ảnh banner bọc `<picture>`, có `<source media="(max-width: 991.98px)" srcset="(ảnh GIF rỗng 1×1)">`. Chỉ ẩn bằng `display:none` thì mobile vẫn tải ảnh, lại với `fetchpriority="high"`, giành băng thông với phần tử LCP thật. Desktop vẫn dùng `srcset` cũ của `<img>`.
+   - 4 ảnh thẻ sản phẩm đầu (hàng đầu desktop, 2 hàng đầu mobile) đổi `loading="lazy"` thành `loading="eager"` và bỏ `auto, ` trong `sizes` (chỉ hợp lệ với lazy). Ở 390px và 768px ảnh thẻ đầu chính là phần tử LCP. DEV: lọc `wp_get_attachment_image_attributes` theo vị trí trong vòng lặp sản phẩm.
+   - Phần tử LCP đo được: desktop = ảnh banner; 390×844 và 768×1024 = ảnh thẻ sản phẩm đầu; 375×667 = H1. Tất cả đều nằm trong màn hình đầu.
 
 CSS dùng chung selector `.shop-archive .category-hero`, nên dán lên site sẽ áp cho mọi danh mục. Các ảnh banner khác cũng theo bố cục trang trí bên trái, sản phẩm bên phải. Riêng ảnh Đồ chơi vận động (800×500, có viền kem) cần up lại dạng dải 1024×224.
 

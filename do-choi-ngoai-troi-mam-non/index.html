@@ -373,8 +373,10 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
      - desktop: cột chữ rộng 58% → mô tả đè lên xích đu
      - mobile: khung gần vuông → chỉ còn khúc giữa ảnh, nằm ngay sau chữ
    Sau: desktop ảnh căn phải + mép trái mờ dần vào nền vàng, chữ gọn ở nửa trái;
-        mobile H1 + mô tả trên nền vàng trơn, ảnh thành dải riêng ngay dưới mô tả,
-        cao theo đúng tỉ lệ ảnh (32:7 ≈ dải 1024×224) → thấy trọn ảnh, không cắt, ~83px ở 390px.
+        mobile/tablet (≤991px) BỎ ảnh (E1 visual-semantic-seo: PLP không banner hero,
+        ảnh đại diện đi qua og:image + CollectionPage.image) → H1 + mô tả + tiêu chí trên
+        nền vàng, lưới SP lên cao. Ảnh không bị TẢI trên mobile nhờ <picture> có
+        <source media="(max-width: 991.98px)"> trỏ ảnh rỗng (display:none vẫn tải ảnh).
    Thanh 4 tiêu chí: hiện đủ chữ (trước bị cắt "…" ở cả mobile lẫn desktop),
         nhãn dài thì xuống 2 dòng → thanh cao lên nên không neo đáy nữa mà nằm
         trong dòng chảy ngay dưới mô tả (trước: 992–1199px thanh 2 hàng đè mất
@@ -434,15 +436,8 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 		gap: 0;
 	}
 
-	.shop-archive .category-hero .copy {
-		order: -1;
-	}
-
 	.shop-archive .category-hero .media {
-		position: relative;
-		inset: auto;
-		margin: 0 -12px;
-		aspect-ratio: 32 / 7;
+		display: none;
 	}
 
 	/* :last-child: rule gốc "padding-right:0" (vạch ngăn thanh ngang desktop) lọt xuống mobile → nút (i) ô cuối lệch 8px */
@@ -456,10 +451,16 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 	}
 }
 
-/* Máy hẹp (360–375px): 2 cột chỉ còn ~105px cho chữ → nhãn vỡ 3 dòng; 1 cột thì mỗi nhãn 1 dòng */
+/* Máy hẹp (360–375px): 2 cột chỉ còn ~105px cho chữ → nhãn vỡ 3 dòng; 1 cột thì mỗi nhãn 1 dòng.
+   Ô 1 dòng nên đệm dọc 8 → 6px: 375×667 toolbar Bộ lọc vào trọn màn hình đầu (trước lố 5px) */
 @media (max-width: 389.98px) {
 	.shop-archive .category-hero .criteria .list {
 		grid-template-columns: 1fr;
+	}
+
+	.shop-archive .category-hero .criteria .item,
+	.shop-archive .category-hero .criteria .item:last-child {
+		padding: 6px 8px;
 	}
 }
 </style>
@@ -529,7 +530,8 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
     
 <!-- Danh mục Đồ chơi ngoài trời mầm non — bản sạch, chỉ sửa banner (.category-hero), 09/11/2026.
      Mới: <style id="vmx-change"> (dán cuối woocommerce-archive.css) + og:image/twitter:image + CollectionPage.image
-     (ảnh banner, DEV khai ở Rank Math). HTML trang còn lại giữ nguyên như site.
+     (ảnh banner, DEV khai ở Rank Math) + <picture> cho ảnh banner (mobile không tải) + 4 ảnh thẻ SP đầu loading=eager.
+     HTML trang còn lại giữ nguyên như site.
      <script id="vmx-demo-guard"> CHỈ cho file demo.
      Dựng bằng nguyen-lieu/2026-11-09_banner-ngoai-troi-trang-build/build.py — ĐỪNG sửa tay file này. -->
 <style id="vmx-font">
@@ -2065,7 +2067,7 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 	data-term="21">
 	<div class="inner">
 					<div class="media" aria-hidden="true">
-				<img width="2032" height="444" src="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/11/do-choi-mam-non-ngoai-troi.webp" class="img" alt="Đồ chơi mầm non ngoài trời" loading="eager" fetchpriority="high" decoding="async" srcset="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/11/do-choi-mam-non-ngoai-troi.webp 2032w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/11/do-choi-mam-non-ngoai-troi-300x66.webp 300w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/11/do-choi-mam-non-ngoai-troi-1024x224.webp 1024w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/11/do-choi-mam-non-ngoai-troi-768x168.webp 768w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/11/do-choi-mam-non-ngoai-troi-1536x336.webp 1536w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/11/do-choi-mam-non-ngoai-troi-600x131.webp 600w" sizes="(max-width: 2032px) 100vw, 2032px" />			</div>
+				<picture><source media="(max-width: 991.98px)" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="1" height="1" /><img width="2032" height="444" src="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/11/do-choi-mam-non-ngoai-troi.webp" class="img" alt="Đồ chơi mầm non ngoài trời" loading="eager" fetchpriority="high" decoding="async" srcset="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/11/do-choi-mam-non-ngoai-troi.webp 2032w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/11/do-choi-mam-non-ngoai-troi-300x66.webp 300w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/11/do-choi-mam-non-ngoai-troi-1024x224.webp 1024w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/11/do-choi-mam-non-ngoai-troi-768x168.webp 768w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/11/do-choi-mam-non-ngoai-troi-1536x336.webp 1536w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/11/do-choi-mam-non-ngoai-troi-600x131.webp 600w" sizes="(max-width: 2032px) 100vw, 2032px" /></picture>			</div>
 		
 		<div class="copy">
 							<h1 class="title-thc">Đồ chơi ngoài trời mầm non</h1>
@@ -2493,7 +2495,7 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 							</div>
 
 			<div class="image-inner">
-				<img width="300" height="300" src="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/bo-vach-thang-leo-nui-da-nang-cho-be-hinh-chinh-300x300.png" class="img" alt="Bộ vách thang leo núi đa năng cho bé" loading="lazy" decoding="async" srcset="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/bo-vach-thang-leo-nui-da-nang-cho-be-hinh-chinh-300x300.png 300w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/bo-vach-thang-leo-nui-da-nang-cho-be-hinh-chinh-150x150.png 150w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/bo-vach-thang-leo-nui-da-nang-cho-be-hinh-chinh-768x768.png 768w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/bo-vach-thang-leo-nui-da-nang-cho-be-hinh-chinh-600x600.png 600w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/bo-vach-thang-leo-nui-da-nang-cho-be-hinh-chinh-100x100.png 100w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/bo-vach-thang-leo-nui-da-nang-cho-be-hinh-chinh.png 800w" sizes="auto, (max-width: 300px) 100vw, 300px" />			</div>
+				<img width="300" height="300" src="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/bo-vach-thang-leo-nui-da-nang-cho-be-hinh-chinh-300x300.png" class="img" alt="Bộ vách thang leo núi đa năng cho bé" loading="eager" decoding="async" srcset="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/bo-vach-thang-leo-nui-da-nang-cho-be-hinh-chinh-300x300.png 300w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/bo-vach-thang-leo-nui-da-nang-cho-be-hinh-chinh-150x150.png 150w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/bo-vach-thang-leo-nui-da-nang-cho-be-hinh-chinh-768x768.png 768w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/bo-vach-thang-leo-nui-da-nang-cho-be-hinh-chinh-600x600.png 600w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/bo-vach-thang-leo-nui-da-nang-cho-be-hinh-chinh-100x100.png 100w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/bo-vach-thang-leo-nui-da-nang-cho-be-hinh-chinh.png 800w" sizes="(max-width: 300px) 100vw, 300px" />			</div>
 		</div>
 
 		<div class="info">
@@ -2552,7 +2554,7 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 							</div>
 
 			<div class="image-inner">
-				<img width="300" height="300" src="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-van-dong-hinh-kim-tu-thap-nhap-khau-cho-tre-mam-non-hinh-chinh-300x300.png" class="img" alt="Thang leo vận động hình Kim Tự Tháp nhập khẩu cho trẻ mầm non" loading="lazy" decoding="async" srcset="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-van-dong-hinh-kim-tu-thap-nhap-khau-cho-tre-mam-non-hinh-chinh-300x300.png 300w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-van-dong-hinh-kim-tu-thap-nhap-khau-cho-tre-mam-non-hinh-chinh-150x150.png 150w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-van-dong-hinh-kim-tu-thap-nhap-khau-cho-tre-mam-non-hinh-chinh-768x768.png 768w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-van-dong-hinh-kim-tu-thap-nhap-khau-cho-tre-mam-non-hinh-chinh-600x600.png 600w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-van-dong-hinh-kim-tu-thap-nhap-khau-cho-tre-mam-non-hinh-chinh-100x100.png 100w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-van-dong-hinh-kim-tu-thap-nhap-khau-cho-tre-mam-non-hinh-chinh.png 800w" sizes="auto, (max-width: 300px) 100vw, 300px" />			</div>
+				<img width="300" height="300" src="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-van-dong-hinh-kim-tu-thap-nhap-khau-cho-tre-mam-non-hinh-chinh-300x300.png" class="img" alt="Thang leo vận động hình Kim Tự Tháp nhập khẩu cho trẻ mầm non" loading="eager" decoding="async" srcset="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-van-dong-hinh-kim-tu-thap-nhap-khau-cho-tre-mam-non-hinh-chinh-300x300.png 300w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-van-dong-hinh-kim-tu-thap-nhap-khau-cho-tre-mam-non-hinh-chinh-150x150.png 150w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-van-dong-hinh-kim-tu-thap-nhap-khau-cho-tre-mam-non-hinh-chinh-768x768.png 768w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-van-dong-hinh-kim-tu-thap-nhap-khau-cho-tre-mam-non-hinh-chinh-600x600.png 600w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-van-dong-hinh-kim-tu-thap-nhap-khau-cho-tre-mam-non-hinh-chinh-100x100.png 100w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-van-dong-hinh-kim-tu-thap-nhap-khau-cho-tre-mam-non-hinh-chinh.png 800w" sizes="(max-width: 300px) 100vw, 300px" />			</div>
 		</div>
 
 		<div class="info">
@@ -2611,7 +2613,7 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 							</div>
 
 			<div class="image-inner">
-				<img width="300" height="300" src="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nui-xoan-3-nhanh-nhap-khau-cho-be-mau-giao-van-dong-hinh-chinh-300x300.png" class="img" alt="Thang leo núi xoắn 3 nhánh nhập khẩu cho bé mẫu giáo vận động" loading="lazy" decoding="async" srcset="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nui-xoan-3-nhanh-nhap-khau-cho-be-mau-giao-van-dong-hinh-chinh-300x300.png 300w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nui-xoan-3-nhanh-nhap-khau-cho-be-mau-giao-van-dong-hinh-chinh-150x150.png 150w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nui-xoan-3-nhanh-nhap-khau-cho-be-mau-giao-van-dong-hinh-chinh-768x768.png 768w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nui-xoan-3-nhanh-nhap-khau-cho-be-mau-giao-van-dong-hinh-chinh-600x600.png 600w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nui-xoan-3-nhanh-nhap-khau-cho-be-mau-giao-van-dong-hinh-chinh-100x100.png 100w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nui-xoan-3-nhanh-nhap-khau-cho-be-mau-giao-van-dong-hinh-chinh.png 800w" sizes="auto, (max-width: 300px) 100vw, 300px" />			</div>
+				<img width="300" height="300" src="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nui-xoan-3-nhanh-nhap-khau-cho-be-mau-giao-van-dong-hinh-chinh-300x300.png" class="img" alt="Thang leo núi xoắn 3 nhánh nhập khẩu cho bé mẫu giáo vận động" loading="eager" decoding="async" srcset="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nui-xoan-3-nhanh-nhap-khau-cho-be-mau-giao-van-dong-hinh-chinh-300x300.png 300w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nui-xoan-3-nhanh-nhap-khau-cho-be-mau-giao-van-dong-hinh-chinh-150x150.png 150w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nui-xoan-3-nhanh-nhap-khau-cho-be-mau-giao-van-dong-hinh-chinh-768x768.png 768w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nui-xoan-3-nhanh-nhap-khau-cho-be-mau-giao-van-dong-hinh-chinh-600x600.png 600w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nui-xoan-3-nhanh-nhap-khau-cho-be-mau-giao-van-dong-hinh-chinh-100x100.png 100w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nui-xoan-3-nhanh-nhap-khau-cho-be-mau-giao-van-dong-hinh-chinh.png 800w" sizes="(max-width: 300px) 100vw, 300px" />			</div>
 		</div>
 
 		<div class="info">
@@ -2672,7 +2674,7 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 							</div>
 
 			<div class="image-inner">
-				<img width="300" height="300" src="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nhua-cau-vong-cho-be-mam-non-hinh-chinh-300x300.png" class="img" alt="Thang leo nhựa cầu vồng cho bé mầm non" loading="lazy" decoding="async" srcset="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nhua-cau-vong-cho-be-mam-non-hinh-chinh-300x300.png 300w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nhua-cau-vong-cho-be-mam-non-hinh-chinh-150x150.png 150w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nhua-cau-vong-cho-be-mam-non-hinh-chinh-768x768.png 768w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nhua-cau-vong-cho-be-mam-non-hinh-chinh-600x600.png 600w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nhua-cau-vong-cho-be-mam-non-hinh-chinh-100x100.png 100w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nhua-cau-vong-cho-be-mam-non-hinh-chinh.png 800w" sizes="auto, (max-width: 300px) 100vw, 300px" />			</div>
+				<img width="300" height="300" src="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nhua-cau-vong-cho-be-mam-non-hinh-chinh-300x300.png" class="img" alt="Thang leo nhựa cầu vồng cho bé mầm non" loading="eager" decoding="async" srcset="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nhua-cau-vong-cho-be-mam-non-hinh-chinh-300x300.png 300w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nhua-cau-vong-cho-be-mam-non-hinh-chinh-150x150.png 150w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nhua-cau-vong-cho-be-mam-non-hinh-chinh-768x768.png 768w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nhua-cau-vong-cho-be-mam-non-hinh-chinh-600x600.png 600w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nhua-cau-vong-cho-be-mam-non-hinh-chinh-100x100.png 100w, https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/10/thang-leo-nhua-cau-vong-cho-be-mam-non-hinh-chinh.png 800w" sizes="(max-width: 300px) 100vw, 300px" />			</div>
 		</div>
 
 		<div class="info">
