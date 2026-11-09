@@ -385,7 +385,7 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
         Đủ hoá đơn VAT — sửa ở nội dung, không ở CSS); chạm vào CẢ Ô để mở tooltip (≤991px: vùng bấm của nút (i) phủ kín ô, ô cao ≥44px;
         JS tooltip của theme không đổi) — trước nút (i) chỉ 12×12px.
    Mô tả (09/11): mọi khổ kẹp 3 dòng + "…" + nút "Xem thêm" gạch chân (page.js, chỉ hiện khi dài hơn 3 dòng).
-   Desktop: ảnh banner mờ bớt (opacity .55) để mô tả dài đọc rõ khi chạy qua ảnh.
+   Desktop: chữ dàn hết banner đè lên ảnh; ảnh mờ (opacity .4) + mô tả đậm 500 để đọc rõ.
    Mobile/tablet: header → breadcrumb trống 48px = padding-top 24 của main + gap 24 của
         .layout (cột .sidebar cao 0 vì bộ lọc là ngăn kéo fixed, nhưng vẫn ăn 1 gap) → còn 12px.
    ========================================================================== */
@@ -442,13 +442,17 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 		width: 62%;
 		-webkit-mask-image: linear-gradient(90deg, transparent 0, #000 22%);
 		mask-image: linear-gradient(90deg, transparent 0, #000 22%);
-		opacity: 0.55;
+		opacity: 0.4;
 	}
 
-	/* 52%: H1 36px "Đồ chơi ngoài trời mầm non" vừa 1 dòng ở khung 1022px; mô tả dài kẹp 3 dòng + Xem thêm.
-	   (09/11 đã thử dàn hết chiều ngang đè lên ảnh — user cho về lại 52%) */
+	/* chữ dàn hết chiều ngang banner, đè lên ảnh (user chốt lại 09/11 sau khi thử về 52%);
+	   ảnh mờ .4 + mô tả đậm 500 để chữ chạy qua ảnh vẫn dễ đọc */
 	.shop-archive .category-hero .copy {
-		max-width: 52%;
+		max-width: none;
+	}
+
+	.shop-archive .category-hero .desc {
+		font-weight: 500;
 	}
 
 	.shop-archive .category-hero .criteria {
