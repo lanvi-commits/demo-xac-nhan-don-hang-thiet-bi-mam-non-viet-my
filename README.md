@@ -35,6 +35,7 @@ Bản sạch của trang danh mục, HTML giữ nguyên như site. Sửa banner 
 3. Thanh 4 tiêu chí hiện đủ chữ ở mọi khổ (trước bị cắt "…"):
    - Desktop: nhãn đầy đủ, nhãn dài xuống 2 dòng. Thanh nằm ngay dưới mô tả, không ghim ở đáy nữa (trước ở khổ 992–1199px thanh 2 hàng che mất 40px mô tả, lỗi có sẵn trên site). Khổ 992–1199px chia 2×2.
    - **Chữ nhãn mới ở mọi khổ (09/11):** "Chính hãng 100%" · "An toàn cho bé" · "Giá cạnh tranh" · "Đủ hoá đơn VAT" (thay "Sản phẩm chính hãng 100%" · "An toàn tuyệt đối cho bé yêu" · "Giá tốt nhất thị trường" · "Hóa đơn, chứng từ đầy đủ"); `aria-label` của nút (i) đổi theo. Sửa ở cài đặt tiêu chí của banner danh mục, không sửa template. Desktop: 4 nhãn 1 dòng, thanh cao 56px. Điện thoại (≤767px): 2×2, khối cao 92px, cả 4 nhãn 1 dòng (đo 360–414px).
+   - **Nút (i) đứng ngay sau chữ** (cách 6–8px) trên desktop và tablet (≥768px), cụm icon + chữ + (i) căn giữa mỗi cột; 4 cột vẫn đều nhau, vạch ngăn giữ chỗ. Trước đây theme cho phần chữ giãn hết cột nên (i) dạt ra mép phải, cách chữ 150–190px. Điện thoại giữ (i) ở mép phải vì ô hẹp.
    - Mobile và tablet (≤991px): **chạm vào cả ô để mở tooltip**. Vùng bấm của nút (i) phủ kín ô (`::before`), ô cao ≥44px; trước đây nút chỉ 12×12px. JS tooltip của theme giữ nguyên. Dưới 390px ẩn hình (i) để 2×2 vẫn vừa 1 dòng.
    - Ô cuối trên mobile trước hụt 8px lề phải do rule `.item:last-child { padding-right: 0 }` của thanh ngang desktop.
 
@@ -48,7 +49,7 @@ Bản sạch của trang danh mục, HTML giữ nguyên như site. Sửa banner 
    - Phần tử LCP đo được: desktop = ảnh banner; 390×844 và 768×1024 = ảnh thẻ sản phẩm đầu; 375×667 = H1. Tất cả đều nằm trong màn hình đầu.
 
 7. Mô tả danh mục thay bằng chữ mới (09/11): "Trang thiết bị đồ chơi vận động mầm non chính hãng, an toàn tuyệt đối và hỗ trợ phát triển thể chất toàn diện cho bé. Đa dạng mẫu bập bênh, cầu trượt, xích đu chất lượng cao, chịu nắng mưa tốt, phù hợp cho không gian trong nhà, sân chơi ngoài trời và trường mẫu giáo." Sửa ở ô "Mô tả" của danh mục trong admin, không sửa template.
-   - Điện thoại (≤767px): mô tả mặc định 3 dòng, dài hơn thì có "…" (CSS `line-clamp: 3`) và nút chữ gạch chân **"Xem thêm"** ngay dưới. Bấm thì mở hết, chữ nút đổi thành "Thu gọn" (`aria-expanded`). Nút chỉ hiện khi chữ dài hơn 3 dòng; vùng bấm cao 44px. Toàn bộ mô tả luôn nằm trong HTML. Code: `<script id="vmx-page-js">` (tự chèn nút sau `.desc`).
+   - **Mọi khổ màn hình** (desktop, tablet, điện thoại): mô tả mặc định 3 dòng, dài hơn thì có "…" (CSS `line-clamp: 3`) và nút chữ gạch chân **"Xem thêm"** ngay dưới. Bấm thì mở hết, chữ nút đổi thành "Thu gọn" (`aria-expanded`). Nút chỉ hiện khi chữ dài hơn 3 dòng; vùng bấm cao 44px. Toàn bộ mô tả luôn nằm trong HTML. Code: `<script id="vmx-page-js">` (tự chèn nút sau `.desc`).
    - Desktop (≥992px): ảnh banner mờ bớt (`opacity: .55`) để mô tả dài chạy qua ảnh vẫn đọc rõ.
 
 CSS dùng chung selector `.shop-archive .category-hero`, nên dán lên site sẽ áp cho mọi danh mục. Các ảnh banner khác cũng theo bố cục trang trí bên trái, sản phẩm bên phải. Riêng ảnh Đồ chơi vận động (800×500, có viền kem) cần up lại dạng dải 1024×224.
