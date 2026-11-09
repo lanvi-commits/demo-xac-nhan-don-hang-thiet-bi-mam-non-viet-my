@@ -464,6 +464,7 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 	.shop-archive .category-hero .criteria {
 		width: fit-content;
 		max-width: 100%;
+		padding: 12px 8px;
 	}
 
 	.shop-archive .category-hero .criteria .info {
@@ -472,14 +473,14 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 }
 
 @media (min-width: 1200px) {
-	/* 1 hàng: mỗi cụm rộng theo chữ, vạch ngăn cách đều 2 bên 16px */
+	/* 1 hàng: mỗi cụm rộng theo chữ, vạch ngăn cách đều 2 bên 12px (user: không kéo thẳng hàng với chữ, bớt khoảng dư) */
 	.shop-archive .category-hero .criteria .list {
-		gap: 16px;
+		gap: 12px;
 	}
 
 	.shop-archive .category-hero .criteria .item {
 		flex: 0 0 auto;
-		padding-right: 16px;
+		padding-right: 12px;
 	}
 
 	.shop-archive .category-hero .criteria .item:last-child {
@@ -492,7 +493,7 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 	.shop-archive .category-hero .criteria .list {
 		display: grid;
 		grid-template-columns: repeat(2, auto);
-		gap: 12px 32px;
+		gap: 12px 24px;
 	}
 }
 
