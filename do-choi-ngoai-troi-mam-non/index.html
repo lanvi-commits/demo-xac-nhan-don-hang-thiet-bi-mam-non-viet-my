@@ -445,9 +445,10 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 		opacity: 0.55;
 	}
 
-	/* 52%: H1 36px "Đồ chơi ngoài trời mầm non" vừa 1 dòng ở khung 1022px → banner thấp lại, hàng SP đầu ≤600px (E1) */
+	/* chữ dàn hết chiều ngang banner, đè lên ảnh (user chốt 09/11; ảnh đã mờ .55 nên chữ vẫn rõ) → mô tả ít dòng hơn,
+	   banner thấp lại. Trước: 52% (theme 58%) */
 	.shop-archive .category-hero .copy {
-		max-width: 52%;
+		max-width: none;
 	}
 
 	.shop-archive .category-hero .criteria {
@@ -458,10 +459,11 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 		margin-top: 16px;
 	}
 
-	/* nút (i) đứng ngay sau chữ (theme cho .info giãn hết cột → (i) dạt ra mép phải, xa chữ);
-	   cụm icon + chữ + (i) căn giữa cột, 4 cột vẫn đều nhau, vạch ngăn giữ chỗ */
-	.shop-archive .category-hero .criteria .item {
-		justify-content: center;
+	/* khung trắng ôm sát chữ (user 09/11): rộng vừa nội dung thay vì kéo hết banner;
+	   nút (i) đứng ngay sau chữ (theme cho .info giãn hết cột → (i) dạt ra mép phải, xa chữ) */
+	.shop-archive .category-hero .criteria {
+		width: fit-content;
+		max-width: 100%;
 	}
 
 	.shop-archive .category-hero .criteria .info {
@@ -469,9 +471,28 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 	}
 }
 
-@media (min-width: 992px) and (max-width: 1199.98px) {
+@media (min-width: 1200px) {
+	/* 1 hàng: mỗi cụm rộng theo chữ, vạch ngăn cách đều 2 bên 16px */
+	.shop-archive .category-hero .criteria .list {
+		gap: 16px;
+	}
+
 	.shop-archive .category-hero .criteria .item {
-		flex: 1 1 calc(50% - 16px);
+		flex: 0 0 auto;
+		padding-right: 16px;
+	}
+
+	.shop-archive .category-hero .criteria .item:last-child {
+		padding-right: 0;
+	}
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+	/* 2×2 ôm sát chữ: cột rộng theo cụm dài nhất */
+	.shop-archive .category-hero .criteria .list {
+		display: grid;
+		grid-template-columns: repeat(2, auto);
+		gap: 12px 32px;
 	}
 }
 
