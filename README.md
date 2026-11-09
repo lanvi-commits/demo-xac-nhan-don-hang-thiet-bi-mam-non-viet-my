@@ -34,6 +34,8 @@ Bản sạch của trang danh mục, HTML giữ nguyên như site. Chỉ sửa b
 2. Desktop (≥992px): ảnh chiếm 62% bên phải, căn phải, mép trái mờ dần vào nền vàng. Cột chữ còn 46% (trước là 58%) nên mô tả không còn đè lên xích đu.
 3. Thanh 4 tiêu chí hiện đủ chữ ở mọi khổ (trước bị cắt "…"). Nhãn dài thì xuống 2 dòng. Thanh nằm ngay dưới mô tả, không ghim ở đáy nữa: trước đây ở khổ 992–1199px thanh xuống 2 hàng nhưng vẫn ghim đáy nên che mất 40px mô tả (lỗi có sẵn trên site). 992–1199px chia 2×2; dưới 390px chuyển 1 cột để không nhãn nào vỡ 3 dòng; nút (i) luôn sát mép phải. Ô cuối trên mobile trước lệch 8px do rule `.item:last-child { padding-right: 0 }` của thanh ngang desktop.
 
+4. Mobile và tablet (≤991px): khoảng trắng giữa header và breadcrumb giảm từ 48px xuống 12px. 48px cũ gồm `padding-top: 24px` của `main.shop-archive` cộng `gap: 24px` của `.layout`. Cột `.sidebar` cao 0px vì bộ lọc là ngăn kéo `position: fixed`, nhưng vẫn tạo thêm một khoảng gap. Desktop giữ nguyên 24px vì cột bộ lọc vẫn hiện.
+
 CSS dùng chung selector `.shop-archive .category-hero`, nên dán lên site sẽ áp cho mọi danh mục. Các ảnh banner khác cũng theo bố cục trang trí bên trái, sản phẩm bên phải. Riêng ảnh Đồ chơi vận động (800×500, có viền kem) cần up lại dạng dải 1024×224.
 
 `do-choi-ngoai-troi-mam-non/index.html` là bản build từ `Design UX-UI/brands/viet-my/nguyen-lieu/2026-11-09_banner-ngoai-troi-trang-build/`. Sửa `change.css` rồi chạy `build.py`. Đừng sửa tay.

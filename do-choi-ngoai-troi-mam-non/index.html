@@ -372,6 +372,8 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
         nhãn dài thì xuống 2 dòng → thanh cao lên nên không neo đáy nữa mà nằm
         trong dòng chảy ngay dưới mô tả (trước: 992–1199px thanh 2 hàng đè mất
         40px mô tả — lỗi có sẵn trên live).
+   Mobile/tablet: header → breadcrumb trống 48px = padding-top 24 của main + gap 24 của
+        .layout (cột .sidebar cao 0 vì bộ lọc là ngăn kéo fixed, nhưng vẫn ăn 1 gap) → còn 12px.
    ========================================================================== */
 .shop-archive .category-hero .media .img {
 	object-position: right center;
@@ -416,6 +418,14 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 }
 
 @media (max-width: 991.98px) {
+	.shop-archive {
+		padding-top: 12px;
+	}
+
+	.shop-archive .layout {
+		gap: 0;
+	}
+
 	.shop-archive .category-hero .copy {
 		order: -1;
 	}
