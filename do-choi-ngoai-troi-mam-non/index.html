@@ -381,11 +381,18 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
         nhãn dài thì xuống 2 dòng → thanh cao lên nên không neo đáy nữa mà nằm
         trong dòng chảy ngay dưới mô tả (trước: 992–1199px thanh 2 hàng đè mất
         40px mô tả — lỗi có sẵn trên live).
+   Thanh tiêu chí mobile (hướng A 09/11): ≤767px nhãn ngắn 1 dòng (.label-short, chữ đã duyệt),
+        chạm vào CẢ Ô để mở tooltip (≤991px: vùng bấm của nút (i) phủ kín ô, ô cao ≥44px;
+        JS tooltip của theme không đổi) — trước nút (i) chỉ 12×12px.
    Mobile/tablet: header → breadcrumb trống 48px = padding-top 24 của main + gap 24 của
         .layout (cột .sidebar cao 0 vì bộ lọc là ngăn kéo fixed, nhưng vẫn ăn 1 gap) → còn 12px.
    ========================================================================== */
 .shop-archive .category-hero .media .img {
 	object-position: right center;
+}
+
+.shop-archive .category-hero .criteria .label-short {
+	display: none;
 }
 
 .shop-archive .category-hero .criteria .label {
@@ -447,20 +454,62 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 	}
 
 	.shop-archive .category-hero .criteria .criteria-info {
+		position: static;
 		margin-left: auto;
+	}
+
+	/* chạm vào cả ô = chạm nút (i): vùng bấm phủ kín ô, ô cao ≥44px (trước nút chỉ 12×12px) */
+	.shop-archive .category-hero .criteria .item {
+		position: relative;
+		min-height: 44px;
+	}
+
+	.shop-archive .category-hero .criteria .criteria-info::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+	}
+
+	.shop-archive .category-hero .criteria .item:has(.criteria-info:focus-visible) {
+		outline: 2px solid #111927;
+		outline-offset: 2px;
 	}
 }
 
-/* Máy hẹp (360–375px): 2 cột chỉ còn ~105px cho chữ → nhãn vỡ 3 dòng; 1 cột thì mỗi nhãn 1 dòng.
-   Ô 1 dòng nên đệm dọc 8 → 6px: 375×667 toolbar Bộ lọc vào trọn màn hình đầu (trước lố 5px) */
-@media (max-width: 389.98px) {
-	.shop-archive .category-hero .criteria .list {
-		grid-template-columns: 1fr;
+/* Điện thoại: nhãn ngắn 1 dòng → 2×2 gọn (nhãn đầy đủ vẫn ở aria-label nút + tooltip) */
+@media (max-width: 767.98px) {
+	.shop-archive .category-hero .criteria .label {
+		white-space: nowrap;
 	}
 
+	.shop-archive .category-hero .criteria .label-full {
+		display: none;
+	}
+
+	.shop-archive .category-hero .criteria .label-short {
+		display: inline;
+	}
+
+	/* ô cao nhờ min-height 44px; bớt đệm ngang + khoảng cách để "Chính hãng 100%" (118px) vừa 1 dòng ở 390px */
 	.shop-archive .category-hero .criteria .item,
 	.shop-archive .category-hero .criteria .item:last-child {
-		padding: 6px 8px;
+		gap: 4px;
+		padding: 0 6px;
+	}
+}
+
+/* <390px (360–375): 2 cột chỉ còn ~98px cho chữ → ẩn hình (i); nút vẫn phủ cả ô + aria-label đọc đủ nhãn */
+@media (max-width: 389.98px) {
+	.shop-archive .category-hero .criteria .feature-info__icon {
+		display: none;
+	}
+
+	/* theme đặt cứng nút 12px ở ≤991px; về 0 + bù gap 4px của flex → nhãn có đủ 118px ở 360px.
+	   Vùng bấm vẫn là ::before phủ cả ô */
+	.shop-archive .category-hero .criteria .criteria-info {
+		width: 0;
+		margin-left: -4px;
 	}
 }
 </style>
@@ -530,7 +579,8 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
     
 <!-- Danh mục Đồ chơi ngoài trời mầm non — bản sạch, chỉ sửa banner (.category-hero), 09/11/2026.
      Mới: <style id="vmx-change"> (dán cuối woocommerce-archive.css) + og:image/twitter:image + CollectionPage.image
-     (ảnh banner, DEV khai ở Rank Math) + <picture> cho ảnh banner (mobile không tải) + 4 ảnh thẻ SP đầu loading=eager.
+     (ảnh banner, DEV khai ở Rank Math) + <picture> cho ảnh banner (mobile không tải) + 4 ảnh thẻ SP đầu loading=eager
+     + nhãn ngắn <span class="label-short"> cho 4 tiêu chí.
      HTML trang còn lại giữ nguyên như site.
      <script id="vmx-demo-guard"> CHỈ cho file demo.
      Dựng bằng nguyen-lieu/2026-11-09_banner-ngoai-troi-trang-build/build.py — ĐỪNG sửa tay file này. -->
@@ -2081,7 +2131,7 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 															<div class="icon">
 									<img width="1" height="1" src="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/08/icon-shield.svg" class="img" alt="100% an toàn cho bé" decoding="async" />								</div>
 														<div class="info">
-																	<div class="label">Sản phẩm chính hãng 100%</div>
+																	<div class="label"><span class="label-full">Sản phẩm chính hãng 100%</span><span class="label-short">Chính hãng 100%</span></div>
 															</div>
 															<button
 									type="button"
@@ -2111,7 +2161,7 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 															<div class="icon">
 									<img width="1" height="1" src="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/08/icon-verified.svg" class="img" alt="Đạt chuẩn Thông tư" decoding="async" />								</div>
 														<div class="info">
-																	<div class="label">An toàn tuyệt đối cho bé yêu</div>
+																	<div class="label"><span class="label-full">An toàn tuyệt đối cho bé yêu</span><span class="label-short">An toàn cho trẻ</span></div>
 															</div>
 															<button
 									type="button"
@@ -2141,7 +2191,7 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 															<div class="icon">
 									<img width="1" height="1" src="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/08/icon-truck.svg" class="img" alt="Giao hàng toàn quốc" decoding="async" />								</div>
 														<div class="info">
-																	<div class="label">Giá tốt nhất thị trường</div>
+																	<div class="label"><span class="label-full">Giá tốt nhất thị trường</span><span class="label-short">Báo giá dự án</span></div>
 															</div>
 															<button
 									type="button"
@@ -2171,7 +2221,7 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 															<div class="icon">
 									<img width="1" height="1" src="https://website-demo-02.thcmedia.vn/wp-content/uploads/2026/08/icon-tool.svg" class="img" alt="Lắp đặt tận nơi" decoding="async" />								</div>
 														<div class="info">
-																	<div class="label">Hóa đơn, chứng từ đầy đủ</div>
+																	<div class="label"><span class="label-full">Hóa đơn, chứng từ đầy đủ</span><span class="label-short">Đủ hóa đơn VAT</span></div>
 															</div>
 															<button
 									type="button"
