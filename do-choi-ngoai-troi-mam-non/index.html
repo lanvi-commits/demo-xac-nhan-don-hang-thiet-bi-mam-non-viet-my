@@ -385,7 +385,7 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
         Đủ hoá đơn VAT — sửa ở nội dung, không ở CSS); chạm vào CẢ Ô để mở tooltip (≤991px: vùng bấm của nút (i) phủ kín ô, ô cao ≥44px;
         JS tooltip của theme không đổi) — trước nút (i) chỉ 12×12px.
    Mô tả (09/11): mọi khổ kẹp 3 dòng + "…" + nút "Xem thêm" gạch chân (page.js, chỉ hiện khi dài hơn 3 dòng).
-   Desktop: chữ cột trái 52%; ảnh mờ (opacity .4) + mô tả đậm 500 để đọc rõ.
+   Desktop: chữ cột trái 52%; ảnh 2 bên mờ dần, giữa rõ (mask) + mô tả đậm 500 để đọc rõ.
    Mobile/tablet: header → breadcrumb trống 48px = padding-top 24 của main + gap 24 của
         .layout (cột .sidebar cao 0 vì bộ lọc là ngăn kéo fixed, nhưng vẫn ăn 1 gap) → còn 12px.
    ========================================================================== */
@@ -440,13 +440,13 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 	.shop-archive .category-hero .media {
 		left: auto;
 		width: 62%;
-		-webkit-mask-image: linear-gradient(90deg, transparent 0, #000 22%);
-		mask-image: linear-gradient(90deg, transparent 0, #000 22%);
-		opacity: 0.4;
+		/* 2 bên mờ dần vào nền vàng, chính giữa rõ (user gửi mẫu 09/11; thay opacity .4 toàn ảnh) */
+		-webkit-mask-image: linear-gradient(90deg, transparent 0, #000 32%, #000 70%, rgba(0, 0, 0, 0.2) 100%);
+		mask-image: linear-gradient(90deg, transparent 0, #000 32%, #000 70%, rgba(0, 0, 0, 0.2) 100%);
 	}
 
 	/* 52%: chữ nằm bên trái, ảnh bên phải; H1 36px vừa 1 dòng ở khung 1022px, mô tả dài kẹp 3 dòng + Xem thêm.
-	   (09/11 đã thử 2 lần cho chữ dàn hết banner đè lên ảnh — user chốt về lại 52%); ảnh mờ .4 + mô tả đậm 500 giữ */
+	   (09/11 đã thử 2 lần cho chữ dàn hết banner đè lên ảnh — user chốt về lại 52%); mô tả đậm 500 giữ */
 	.shop-archive .category-hero .copy {
 		max-width: 52%;
 	}
