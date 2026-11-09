@@ -384,6 +384,8 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
    Thanh tiêu chí mobile (hướng A 09/11): ≤767px nhãn ngắn 1 dòng (.label-short, chữ đã duyệt),
         chạm vào CẢ Ô để mở tooltip (≤991px: vùng bấm của nút (i) phủ kín ô, ô cao ≥44px;
         JS tooltip của theme không đổi) — trước nút (i) chỉ 12×12px.
+   Mô tả (09/11): điện thoại kẹp 3 dòng + "…" + nút "Xem thêm" gạch chân (page.js, chỉ hiện khi dài hơn 3 dòng).
+   Desktop: ảnh banner mờ bớt (opacity .55) để mô tả dài đọc rõ khi chạy qua ảnh.
    Mobile/tablet: header → breadcrumb trống 48px = padding-top 24 của main + gap 24 của
         .layout (cột .sidebar cao 0 vì bộ lọc là ngăn kéo fixed, nhưng vẫn ăn 1 gap) → còn 12px.
    ========================================================================== */
@@ -412,6 +414,7 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 		width: 62%;
 		-webkit-mask-image: linear-gradient(90deg, transparent 0, #000 22%);
 		mask-image: linear-gradient(90deg, transparent 0, #000 22%);
+		opacity: 0.55;
 	}
 
 	/* 52%: H1 36px "Đồ chơi ngoài trời mầm non" vừa 1 dòng ở khung 1022px → banner thấp lại, hàng SP đầu ≤600px (E1) */
@@ -489,6 +492,38 @@ body::-webkit-scrollbar,.thc-scroll::-webkit-scrollbar{width:10px;background-col
 
 	.shop-archive .category-hero .criteria .label-short {
 		display: inline;
+	}
+
+	/* mô tả 3 dòng + "…"; .is-expanded do nút "Xem thêm" bật */
+	.shop-archive .category-hero .desc:not(.is-expanded) {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+		overflow: hidden;
+	}
+
+	/* chữ gạch chân như link, vùng bấm cao 44px nhưng không đẩy khoảng cách (margin âm) */
+	.shop-archive .category-hero .desc-more {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		margin: -10px 0 -12px;
+		padding: 0;
+		border: 0;
+		background: none;
+		color: #111927;
+		font: inherit;
+		font-size: 14px;
+		font-weight: 600;
+		line-height: 1.57;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		cursor: pointer;
+	}
+
+	.shop-archive .category-hero .desc-more[hidden] {
+		display: none;
 	}
 
 	/* ô cao nhờ min-height 44px; bớt đệm ngang + khoảng cách để "Chính hãng 100%" (118px) vừa 1 dòng ở 390px */
@@ -580,7 +615,8 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 <!-- Danh mục Đồ chơi ngoài trời mầm non — bản sạch, chỉ sửa banner (.category-hero), 09/11/2026.
      Mới: <style id="vmx-change"> (dán cuối woocommerce-archive.css) + og:image/twitter:image + CollectionPage.image
      (ảnh banner, DEV khai ở Rank Math) + <picture> cho ảnh banner (mobile không tải) + 4 ảnh thẻ SP đầu loading=eager
-     + nhãn ngắn <span class="label-short"> cho 4 tiêu chí + mô tả danh mục mới (chữ user gửi 09/11).
+     + nhãn ngắn <span class="label-short"> cho 4 tiêu chí + mô tả danh mục mới (chữ user gửi 09/11)
+     + <script id="vmx-page-js"> (nút "Xem thêm" của mô tả trên điện thoại).
      HTML trang còn lại giữ nguyên như site.
      <script id="vmx-demo-guard"> CHỈ cho file demo.
      Dựng bằng nguyen-lieu/2026-11-09_banner-ngoai-troi-trang-build/build.py — ĐỪNG sửa tay file này. -->
@@ -5276,6 +5312,38 @@ var e="script#wp-emoji-settings",t=document.querySelector(e);if(!(t instanceof H
     </div>
 </div>
 <div id="body_overlay"></div>
+<script id="vmx-page-js">
+/* Banner danh mục — mô tả trên điện thoại (≤767px): CSS kẹp 3 dòng + "…"; nút "Xem thêm" chỉ hiện khi chữ dài hơn 3 dòng.
+   Bấm → mở hết (aria-expanded=true, chữ nút "Thu gọn"). Toàn bộ mô tả luôn nằm trong HTML. */
+(function () {
+	var mq = window.matchMedia('(max-width: 767.98px)');
+	document.querySelectorAll('.category-hero .copy .desc').forEach(function (desc) {
+		var btn = document.createElement('button');
+		btn.type = 'button';
+		btn.className = 'desc-more';
+		btn.textContent = 'Xem thêm';
+		btn.setAttribute('aria-expanded', 'false');
+		btn.hidden = true;
+		desc.id = desc.id || 'category-hero-desc';
+		btn.setAttribute('aria-controls', desc.id);
+		desc.insertAdjacentElement('afterend', btn);
+
+		function update() {
+			if (desc.classList.contains('is-expanded')) return;
+			btn.hidden = !mq.matches || desc.scrollHeight <= desc.clientHeight + 1;
+		}
+
+		btn.addEventListener('click', function () {
+			var open = desc.classList.toggle('is-expanded');
+			btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+			btn.textContent = open ? 'Thu gọn' : 'Xem thêm';
+		});
+		window.addEventListener('resize', update);
+		window.addEventListener('load', update);
+		update();
+	});
+})();
+</script>
 <script id="vmx-demo-guard">
 /* CHỈ CHO FILE DEMO — KHÔNG đưa lên site.
    Trang có form CF7 3917 (popup "Nhận tư vấn & báo giá"). Mở file này ở máy mà bấm gửi thì form vẫn POST thật

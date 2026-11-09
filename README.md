@@ -49,6 +49,8 @@ Bản sạch của trang danh mục, HTML giữ nguyên như site. Sửa banner 
    - Phần tử LCP đo được: desktop = ảnh banner; 390×844 và 768×1024 = ảnh thẻ sản phẩm đầu; 375×667 = H1. Tất cả đều nằm trong màn hình đầu.
 
 7. Mô tả danh mục thay bằng chữ mới (09/11): "Trang thiết bị đồ chơi vận động mầm non chính hãng, an toàn tuyệt đối và hỗ trợ phát triển thể chất toàn diện cho bé. Đa dạng mẫu bập bênh, cầu trượt, xích đu chất lượng cao, chịu nắng mưa tốt, phù hợp cho không gian trong nhà, sân chơi ngoài trời và trường mẫu giáo." Sửa ở ô "Mô tả" của danh mục trong admin, không sửa template.
+   - Điện thoại (≤767px): mô tả mặc định 3 dòng, dài hơn thì có "…" (CSS `line-clamp: 3`) và nút chữ gạch chân **"Xem thêm"** ngay dưới. Bấm thì mở hết, chữ nút đổi thành "Thu gọn" (`aria-expanded`). Nút chỉ hiện khi chữ dài hơn 3 dòng; vùng bấm cao 44px. Toàn bộ mô tả luôn nằm trong HTML. Code: `<script id="vmx-page-js">` (tự chèn nút sau `.desc`).
+   - Desktop (≥992px): ảnh banner mờ bớt (`opacity: .55`) để mô tả dài chạy qua ảnh vẫn đọc rõ.
 
 CSS dùng chung selector `.shop-archive .category-hero`, nên dán lên site sẽ áp cho mọi danh mục. Các ảnh banner khác cũng theo bố cục trang trí bên trái, sản phẩm bên phải. Riêng ảnh Đồ chơi vận động (800×500, có viền kem) cần up lại dạng dải 1024×224.
 
