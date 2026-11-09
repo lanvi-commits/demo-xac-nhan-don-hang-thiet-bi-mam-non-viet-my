@@ -28,13 +28,15 @@ Phần mới chỉ gồm `<div class="order-received-content">`, `<style id="vmx
 - Xem trực tiếp: https://lanvi-commits.github.io/demo-xac-nhan-don-hang-thiet-bi-mam-non-viet-my/do-choi-ngoai-troi-mam-non/
 - Trang thật: https://website-demo-02.thcmedia.vn/do-choi-ngoai-troi-mam-non/
 
-Bản sạch của trang danh mục, HTML giữ nguyên như site. Chỉ sửa banner `.category-hero` bằng CSS. Phần mới duy nhất là `<style id="vmx-change">`, dán cuối `woocommerce-archive.css`.
+Bản sạch của trang danh mục, HTML giữ nguyên như site. Sửa banner `.category-hero` bằng CSS (`<style id="vmx-change">`, dán cuối `woocommerce-archive.css`) và khai ảnh banner làm ảnh đại diện danh mục (mục 5).
 
-1. Mobile và tablet (≤991px): H1 và mô tả nằm trên cùng, trên nền vàng trơn. Ngay bên dưới là dải ảnh riêng, cao 120–168px, căn phải để thấy xích đu, thú nhún và cầu trượt; tiếp theo là thanh tiêu chí. Trước đây ảnh phủ kín khung, chỉ còn khúc giữa ảnh nằm ngay sau chữ.
-2. Desktop (≥992px): ảnh chiếm 62% bên phải, căn phải, mép trái mờ dần vào nền vàng. Cột chữ còn 46% (trước là 58%) nên mô tả không còn đè lên xích đu.
+1. Mobile và tablet (≤991px): H1 và mô tả nằm trên cùng, trên nền vàng trơn. Ngay bên dưới là dải ảnh riêng, cao theo đúng tỉ lệ ảnh 32:7 (khoảng 83px ở khổ 390px) nên thấy trọn ảnh, không bị cắt; tiếp theo là thanh tiêu chí. Trước đây ảnh phủ kín khung, chỉ còn khúc giữa ảnh nằm ngay sau chữ.
+2. Desktop (≥992px): ảnh chiếm 62% bên phải, căn phải, mép trái mờ dần vào nền vàng. Cột chữ còn 52% (trước là 58%): mô tả không còn đè lên xích đu, H1 36px vẫn nằm 1 dòng nên banner giữ 222px và hàng sản phẩm đầu bắt đầu ở 573px (≤600px theo tiêu chí E1 của visual-semantic-seo).
 3. Thanh 4 tiêu chí hiện đủ chữ ở mọi khổ (trước bị cắt "…"). Nhãn dài thì xuống 2 dòng. Thanh nằm ngay dưới mô tả, không ghim ở đáy nữa: trước đây ở khổ 992–1199px thanh xuống 2 hàng nhưng vẫn ghim đáy nên che mất 40px mô tả (lỗi có sẵn trên site). 992–1199px chia 2×2; dưới 390px chuyển 1 cột để không nhãn nào vỡ 3 dòng; nút (i) luôn sát mép phải. Ô cuối trên mobile trước lệch 8px do rule `.item:last-child { padding-right: 0 }` của thanh ngang desktop.
 
 4. Mobile và tablet (≤991px): khoảng trắng giữa header và breadcrumb giảm từ 48px xuống 12px. 48px cũ gồm `padding-top: 24px` của `main.shop-archive` cộng `gap: 24px` của `.layout`. Cột `.sidebar` cao 0px vì bộ lọc là ngăn kéo `position: fixed`, nhưng vẫn tạo thêm một khoảng gap. Desktop giữ nguyên 24px vì cột bộ lọc vẫn hiện.
+
+5. Ảnh đại diện danh mục: khai ảnh banner cho `og:image` (kèm width/height/alt/type), `twitter:image`, và thêm `ImageObject` `#primaryimage` vào schema, gắn vào `CollectionPage.image` + `primaryImageOfPage`. Trang live chưa có cả 3. Phần này DEV làm ở Rank Math, không sửa template.
 
 CSS dùng chung selector `.shop-archive .category-hero`, nên dán lên site sẽ áp cho mọi danh mục. Các ảnh banner khác cũng theo bố cục trang trí bên trái, sản phẩm bên phải. Riêng ảnh Đồ chơi vận động (800×500, có viền kem) cần up lại dạng dải 1024×224.
 
